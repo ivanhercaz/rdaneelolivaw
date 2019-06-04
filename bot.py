@@ -37,25 +37,31 @@ def reply(bot, update):
 
 
 def proposeAwesomeList(bot, update):
-    logger.info("Issue created")
-    resource = update.message.text.replace("/proponer ", "")
-    resourceTitle = resource.split("]")[0].replace("[", "")
-    user = update.message.from_user.username
+    if re.search(r"\]\[", update.message.text):
+        logger.info("Detected error in Markdown syntax")
 
-    labels = [repo.get_label("enhancement"),
-              repo.get_label("telegram")]
-    issue = f"{user} propone añadir el siguiente recurso:\n- {resource}"
-    print(issue)
+        update.message.reply_markdown(
+            f"He detectado un error en tu sintáxis. Recuerda que los enlaces en el lenguaje Markdown se escriben de la siguiente manera:\n`[texto a mostrar](enlace)`",
+            quote=True
+        )
 
-    repo.create_issue(
-        title=f"Recurso propuesto: {resourceTitle}",
-        body=issue,
-        labels=labels
-    )
+    else:
+        logger.info("Issue created")
+        resource = update.message.text.replace("/proponer ", "")
+        resourceTitle = resource.split("]")[0].replace("[", "")
+        user = update.message.from_user.username
 
-    update.message.reply_markdown(
-        f'Recurso `{resourceTitle}` propuesto en una en el repositorio de `makersGC/awesome-micropython`',
-        quote=True)
+        issue = f"{user} propone añadir el siguiente recurso:\n- {resource}"
+        logger.info(issue)
+
+        repo.create_issue(
+            title=f"Recurso propuesto: {resourceTitle}",
+            body=issue
+        )
+
+        update.message.reply_markdown(
+            f'Recurso `{resourceTitle}` propuesto en una __issue__ en el repositorio de `makersGC/awesome-micropython`',
+            quote=True)
 
 
 updater = Updater(config.TOKEN)

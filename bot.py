@@ -12,12 +12,16 @@ repo = github.get_repo(config.GITHUB_REPO_ISSUES)
 logger = logging.getLogger("bot")
 
 
-def hello(bot, update):
-    update.message.reply_text(
-        'Hola compañero {}'.format(update.message.from_user.first_name))
+def welcome(bot, update):
+    newMember = update.message.new_chat_members[0]
+    bot.send_message(
+        chat_id=update.message.chat_id,
+        body=f'Bienvenido compañero {newMember}'
+    )
 
 
 def reply(bot, update):
+    logger.info("Response sent")
     msg = update.message.text
 
     if re.search(r"[h|H]ola [d|D]aneel", msg):
@@ -55,9 +59,9 @@ def proposeAwesomeList(bot, update):
 
 updater = Updater(config.TOKEN)
 
-updater.dispatcher.add_handler(CommandHandler('hola', hello))
 updater.dispatcher.add_handler(CommandHandler('proponer', proposeAwesomeList))
 updater.dispatcher.add_handler(MessageHandler(Filters.text, reply))
+updater.dispatcher.add_handler(MessageHandler(Filters.status_update.new_chat_members, welcome))
 
 updater.start_polling()
 updater.idle()

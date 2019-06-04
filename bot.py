@@ -1,7 +1,8 @@
 from github import Github
-from telegram.ext import Updater, CommandHandler
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 import logging
+import re
 
 import config
 
@@ -14,6 +15,20 @@ logger = logging.getLogger("bot")
 def hello(bot, update):
     update.message.reply_text(
         'Hola compañero {}'.format(update.message.from_user.first_name))
+
+
+def reply(bot, update):
+    msg = update.message.text
+
+    if re.search(r"[h|H]ola [d|D]aneel", msg):
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            text='Hola compañero {}'.format(update.message.from_user.first_name))
+
+    if re.search(r"[a|A]dios [d|D]aneel", msg):
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            text='Adios compañero {}'.format(update.message.from_user.first_name))
 
 
 def proposeAwesomeList(bot, update):
@@ -42,6 +57,7 @@ updater = Updater(config.TOKEN)
 
 updater.dispatcher.add_handler(CommandHandler('hola', hello))
 updater.dispatcher.add_handler(CommandHandler('proponer', proposeAwesomeList))
+updater.dispatcher.add_handler(MessageHandler(Filters.text, reply))
 
 updater.start_polling()
 updater.idle()

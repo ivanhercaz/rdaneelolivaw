@@ -30,10 +30,10 @@ def reply(bot, update):
             chat_id=update.message.chat_id,
             text='Hola compañero {}'.format(update.message.from_user.first_name))
 
-    if re.search(r"[a|A]dios [d|D]aneel", msg):
+    if re.search(r"[a|A]di[o|ó]s [d|D]aneel", msg):
         bot.send_message(
             chat_id=update.message.chat_id,
-            text='Adios compañero {}'.format(update.message.from_user.first_name))
+            text='Adiós compañero {}'.format(update.message.from_user.first_name))
 
 
 def proposeAwesomeList(bot, update):

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from github import Github
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 

@@ -16,8 +16,7 @@ logger = logging.getLogger("bot")
 def welcome(bot, update):
     newMember = update.message.new_chat_members[0]
     bot.send_message(
-        chat_id=update.message.chat_id,
-        body=f'Bienvenido compañero {newMember}'
+        chat_id=update.message.chat_id, body=f"Bienvenido compañero {newMember}"
     )
 
 
@@ -28,12 +27,14 @@ def reply(bot, update):
     if re.search(r"[h|H]ola [d|D]aneel", msg):
         bot.send_message(
             chat_id=update.message.chat_id,
-            text='Hola compañero {}'.format(update.message.from_user.first_name))
+            text="Hola compañero {}".format(update.message.from_user.first_name),
+        )
 
     if re.search(r"[a|A]di[o|ó]s [d|D]aneel", msg):
         bot.send_message(
             chat_id=update.message.chat_id,
-            text='Adiós compañero {}'.format(update.message.from_user.first_name))
+            text="Adiós compañero {}".format(update.message.from_user.first_name),
+        )
 
 
 def proposeAwesomeList(bot, update):
@@ -42,7 +43,7 @@ def proposeAwesomeList(bot, update):
 
         update.message.reply_markdown(
             f"He detectado un error en tu sintáxis. Recuerda que los enlaces en el lenguaje Markdown se escriben de la siguiente manera:\n`[texto a mostrar](enlace)`",
-            quote=True
+            quote=True,
         )
 
     else:
@@ -54,21 +55,22 @@ def proposeAwesomeList(bot, update):
         issue = f"{user} propone añadir el siguiente recurso:\n- {resource}"
         logger.info(issue)
 
-        repo.create_issue(
-            title=f"Recurso propuesto: {resourceTitle}",
-            body=issue
-        )
+        repo.create_issue(title=f"Recurso propuesto: {resourceTitle}", body=issue)
 
         update.message.reply_markdown(
-            f'Recurso `{resourceTitle}` propuesto en una __issue__ en el repositorio de `makersGC/awesome-micropython`',
-            quote=True)
+            f"Recurso `{resourceTitle}` propuesto en una __issue__ en el repositorio de `makersGC/awesome-micropython`",
+            quote=True,
+        )
 
 
-updater = Updater(config.TOKEN)
+if __name__ == "__main__":
+    updater = Updater(config.TOKEN)
 
-updater.dispatcher.add_handler(CommandHandler('proponer', proposeAwesomeList))
-updater.dispatcher.add_handler(MessageHandler(Filters.text, reply))
-updater.dispatcher.add_handler(MessageHandler(Filters.status_update.new_chat_members, welcome))
+    updater.dispatcher.add_handler(CommandHandler("proponer", proposeAwesomeList))
+    updater.dispatcher.add_handler(MessageHandler(Filters.text, reply))
+    updater.dispatcher.add_handler(
+        MessageHandler(Filters.status_update.new_chat_members, welcome)
+    )
 
-updater.start_polling()
-updater.idle()
+    updater.start_polling()
+    updater.idle()

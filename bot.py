@@ -46,6 +46,14 @@ def proposeAwesomeList(bot, update):
             quote=True,
         )
 
+    if len(update.message.text) <= 10:
+        logger.info("Nothing to propose.")
+
+        update.message.reply_markdown(
+            f"No se ha propuesto nada.",
+            quote=True,
+        )
+
     else:
         logger.info("Issue created")
         resource = update.message.text.replace("/proponer ", "")

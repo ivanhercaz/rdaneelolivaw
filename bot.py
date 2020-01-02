@@ -24,13 +24,13 @@ def reply(bot, update):
     logger.info("Response sent")
     msg = update.message.text
 
-    if re.search(r"[h|H]ola [d|D]aneel", msg):
+    if re.search(r"[h|H]ola\s+[d|D]aneel", msg):
         bot.send_message(
             chat_id=update.message.chat_id,
             text="Hola compañero {}".format(update.message.from_user.first_name),
         )
 
-    if re.search(r"[a|A]di[o|ó]s [d|D]aneel", msg):
+    if re.search(r"[a|A]di[o|ó]s\s+[d|D]aneel", msg):
         bot.send_message(
             chat_id=update.message.chat_id,
             text="Adiós compañero {}".format(update.message.from_user.first_name),

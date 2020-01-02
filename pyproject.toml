@@ -14,7 +14,7 @@ include = '\.pyi?$'
 python = "*"
 pygithub = "==1.45"
 python-dotenv = "==0.10.3"
-telegram = "==0.0.1"
+python-telegram-bot = ">=12.2.0"
 
 [tool.dephell.main]
 from = {format = "poetry", path = "pyproject.toml"}

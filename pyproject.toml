@@ -1,7 +1,7 @@
 [tool]
 [tool.poetry]
 name = "rdaneelolivaw"
-version = "0.0.0"
+version = "0.1.0"
 description = "bot to manage tasks in the Telegram group of MakersGC"
 authors = ["Iván Hernández Cazorla <ivan@ivanhercaz.com>"]
 

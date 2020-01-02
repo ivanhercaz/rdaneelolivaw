@@ -50,7 +50,7 @@ def proposeAwesomeList(bot, update):
         logger.info("Nothing to propose.")
 
         update.message.reply_markdown(
-            f"No se ha propuesto nada.",
+            f"No se ha propuesto nada. Recuerda que después del comando debes añadir un enlace en Markdown:\n`[texto a mostrar](enlace)`",
             quote=True,
         )
 
